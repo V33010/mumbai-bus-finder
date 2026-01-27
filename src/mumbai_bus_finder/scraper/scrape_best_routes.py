@@ -22,7 +22,12 @@ def get_output_path() -> Path:
     Returns the absolute path to data/raw/best_bus_routes.json
     regardless of where the script is run from.
     """
-    project_root = Path(__file__).resolve().parents[4]
+    # scrape_best_routes.py
+    # └── scraper
+    #     └── mumbai_bus_finder
+    #         └── src
+    #             └── mumbai-bus-finder  <-- PROJECT ROOT
+    project_root = Path(__file__).resolve().parents[3]
     return project_root / "data" / "raw" / "best_bus_routes.json"
 
 
@@ -44,7 +49,11 @@ def scrape_best_bus_routes():
         print(f"[+] Scraping page {page}")
 
         try:
-            response = requests.get(BASE_URL.format(page), headers=headers, timeout=10)
+            response = requests.get(
+                BASE_URL.format(page),
+                headers=headers,
+                timeout=10,
+            )
 
             if response.status_code != 200:
                 print(f"    [!] Failed page {page} (status {response.status_code})")
@@ -74,7 +83,12 @@ def scrape_best_bus_routes():
                 route_text = body_cell.get_text(separator=",", strip=True)
                 stops = [stop.strip() for stop in route_text.split(",") if stop.strip()]
 
-                all_routes.append({"bus": bus_field, "stops": stops})
+                all_routes.append(
+                    {
+                        "bus": bus_field,
+                        "stops": stops,
+                    }
+                )
 
             time.sleep(REQUEST_DELAY)
 
