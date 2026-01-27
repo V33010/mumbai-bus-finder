@@ -2,7 +2,7 @@
 Scraper for BEST Mumbai bus routes from thaneatoz.com
 
 Outputs:
-    data/raw/best_bus_routes.json
+    data/raw/best_bus_routes.json (relative to repo root)
 """
 
 import json
@@ -20,14 +20,16 @@ REQUEST_DELAY = 0.75  # seconds
 def get_output_path() -> Path:
     """
     Returns the absolute path to data/raw/best_bus_routes.json
-    regardless of where the script is run from.
+    relative to repo root, regardless of where the script is run.
     """
-    # scrape_best_routes.py
-    # └── scraper
-    #     └── mumbai_bus_finder
-    #         └── src
-    #             └── mumbai-bus-finder  <-- PROJECT ROOT
-    project_root = Path(__file__).resolve().parents[3]
+    # scraper.py is at python/src/mumbai_bus_finder/scraper/
+    # Parents:
+    # parents[0] -> scraper/
+    # parents[1] -> mumbai_bus_finder/
+    # parents[2] -> src/
+    # parents[3] -> python/
+    # parents[4] -> repo root
+    project_root = Path(__file__).resolve().parents[4]
     return project_root / "data" / "raw" / "best_bus_routes.json"
 
 
@@ -49,18 +51,12 @@ def scrape_best_bus_routes():
         print(f"[+] Scraping page {page}")
 
         try:
-            response = requests.get(
-                BASE_URL.format(page),
-                headers=headers,
-                timeout=10,
-            )
-
+            response = requests.get(BASE_URL.format(page), headers=headers, timeout=10)
             if response.status_code != 200:
                 print(f"    [!] Failed page {page} (status {response.status_code})")
                 continue
 
             soup = BeautifulSoup(response.text, "html.parser")
-
             table = soup.find("table", class_="views-table")
             if not table:
                 print(f"    [!] No table found on page {page}")
@@ -74,21 +70,14 @@ def scrape_best_bus_routes():
             for row in tbody.find_all("tr"):
                 title_cell = row.find("td", class_="views-field-title")
                 body_cell = row.find("td", class_="views-field-body")
-
                 if not title_cell or not body_cell:
                     continue
 
                 bus_field = title_cell.get_text(strip=True)
-
                 route_text = body_cell.get_text(separator=",", strip=True)
                 stops = [stop.strip() for stop in route_text.split(",") if stop.strip()]
 
-                all_routes.append(
-                    {
-                        "bus": bus_field,
-                        "stops": stops,
-                    }
-                )
+                all_routes.append({"bus": bus_field, "stops": stops})
 
             time.sleep(REQUEST_DELAY)
 
