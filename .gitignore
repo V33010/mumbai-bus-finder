@@ -7,18 +7,24 @@ __pycache__/
 *$py.class
 
 # ================================
-# Virtual environments
+# Python virtual environments
 # ================================
-.venv/
-venv/
-env/
-ENV/
+python/.venv/
+python/venv/
+python/env/
+python/ENV/
 
 # ================================
 # uv / lock / cache
 # ================================
-.uv/
-.uv-cache/
+python/.uv/
+python/.uv-cache/
+
+# ================================
+# Rust build artifacts
+# ================================
+rust/target/
+**/Cargo.lock   # optional: include if you want lockfiles in git
 
 # ================================
 # Test / coverage artifacts
@@ -87,3 +93,11 @@ Desktop.ini
 # ================================
 *.sh~
 *.bak
+
+# ================================
+# Rust temporary / editor files
+# ================================
+**/*.rs.bk
+*.rlib
+*.d
+*.lock (exclude if needed)
