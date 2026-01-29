@@ -1,7 +1,7 @@
-Mumbai Bus Finder 🚌
+# Mumbai Bus Finder 🚌
 A high-performance hybrid application to discover optimal BEST bus routes in Mumbai. It combines Python for data orchestration/scraping and Rust for lightning-fast graph algorithms and pathfinding.
 
-✨ Features
+## Features
 Hybrid Architecture: Python handles the web scraping and IO, while a compiled Rust extension handles the heavy graph computations.
 
 Graph-Based Routing: Uses petgraph (Rust) to model the entire Mumbai bus network as a directed graph.
@@ -10,7 +10,7 @@ Graph-Based Routing: Uses petgraph (Rust) to model the entire Mumbai bus network
 
 Data Scraping: Automated scraper to fetch the latest route details directly from BEST data sources.
 
-📂 Project Structure
+## Project Structure
 ```
 .
 ├── python/               # Python Source Code
@@ -24,14 +24,14 @@ Data Scraping: Automated scraper to fetch the latest route details directly from
 └── scripts/              # Helper shell scripts
 ```
 
-🛠️ Prerequisites
+## Prerequisites
 Python 3.12+
 
 Rust (latest stable toolchain)
 
 uv (Python package manager)
 
-🚀 Setup & Installation
+## Setup & Installation
 Sync Python Dependencies
 
 ```bash
@@ -50,7 +50,7 @@ Compile the Rust Graph Engine This builds the Rust code and installs it as a Pyt
 maturin develop --manifest-path rust/Cargo.toml
 ```
 
-🏃 Usage
+## Usage
 1. Scrape Route Data
 First, populate the dataset by running the scraper. This saves data to data/raw/best_bus_routes.json.
 
