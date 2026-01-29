@@ -1,6 +1,13 @@
 [package]
-name = "rust"
+name = "mumbai_bus_rs"
 version = "0.1.0"
 edition = "2021"
 
+# This is crucial: it tells Rust to build a dynamic library (cdylib)
+[lib]
+name = "mumbai_bus_rs"
+crate-type = ["cdylib"]
+
 [dependencies]
+pyo3 = { version = "0.21.0", features = ["extension-module"] }
+petgraph = "0.6.5"
